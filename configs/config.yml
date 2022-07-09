@@ -1,8 +1,8 @@
-port: "8080"
+port: "8000"
 
 db:
   username: "postgres"
   host:     "localhost"
-  port:     "5437"
+  port:     "5432"
   dbname:   "gym_management_system"
   sslmode:  "disable"
