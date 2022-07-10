@@ -4,5 +4,5 @@ db:
   username: "postgres"
   host:     "localhost"
   port:     "5432"
-  dbname:   "gym_management_system"
+  dbname:   "gym-db"
   sslmode:  "disable"

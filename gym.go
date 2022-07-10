@@ -1,4 +1,4 @@
-package gymSys
+package gym
 
 type Membership struct {
 	Id           int    `json:"-" db:"id"`

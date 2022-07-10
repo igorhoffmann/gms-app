@@ -1,4 +1,4 @@
-package gymSys
+package gym
 
 type User struct {
 	Id               int    `json:"-" db:"id"`

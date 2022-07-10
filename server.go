@@ -1,4 +1,4 @@
-package gymSys
+package gym
 
 import (
 	"context"
