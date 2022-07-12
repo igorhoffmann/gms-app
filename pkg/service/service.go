@@ -1,9 +1,12 @@
 package service
 
-import "github.com/igorgofman/GMS-app/pkg/repository"
+import (
+	"github.com/igorgofman/GMS-app"
+	"github.com/igorgofman/GMS-app/pkg/repository"
+)
 
 type Authorization interface {
-	// CreateUser(user gym.User) (int, error)
+	CreateUser(user gym.SysUser) (int, error)
 	// GenerateToken(username, password string) (string, error)
 	// ParseToken(token string) (int, error)
 }
@@ -41,7 +44,7 @@ type Service struct {
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
-		// Authorization: NewAuthService(repos.Authorization),
+		Authorization: NewAuthService(repos.Authorization),
 		// Info:      NewInfoService(repos.Info),
 		// Membership:      NewMembershipService(repos.Membership),
 		// Visit:      NewVisitService(repos.Visit, repos.Info),
