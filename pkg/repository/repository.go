@@ -1,7 +1,12 @@
 package repository
 
+import (
+	"github.com/igorgofman/GMS-app"
+	"github.com/jmoiron/sqlx"
+)
+
 type Authorization interface {
-	// CreateUser(user gym.User) (int, error)
+	CreateUser(user gym.SysUser) (int, error)
 	// GetUser(username, password string) (gym.User, error)
 }
 
@@ -36,12 +41,11 @@ type Repository struct {
 	Visit
 }
 
-func NewRepository() *Repository {
+func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
-		// Authorization: NewAuthPostgres(db),
+		Authorization: NewAuthPostgres(db),
 		// Info:      NewInfoPostgres(db),
 		// Membership:      NewMembershipPostgres(db),
 		// Visit:      NewVisitPostgres(db),
-		// db *sqlx.DB
 	}
 }
