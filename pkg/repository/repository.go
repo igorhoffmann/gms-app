@@ -1,13 +1,13 @@
 package repository
 
 import (
-	"github.com/igorgofman/GMS-app"
+	gym "github.com/igorgofman/GMS-app"
 	"github.com/jmoiron/sqlx"
 )
 
 type Authorization interface {
 	CreateUser(user gym.SysUser) (int, error)
-	// GetUser(username, password string) (gym.User, error)
+	GetUser(username, password string) (gym.SysUser, error)
 }
 
 type Info interface {

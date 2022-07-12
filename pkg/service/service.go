@@ -7,7 +7,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user gym.SysUser) (int, error)
-	// GenerateToken(username, password string) (string, error)
+	GenerateToken(username, password string) (string, error)
 	// ParseToken(token string) (int, error)
 }
 

@@ -130,8 +130,8 @@ ALTER SEQUENCE public.memberships_id_seq OWNED BY public.memberships.id;
 CREATE TABLE public.system_users (
     id integer NOT NULL,
     username character varying(255) NOT NULL,
-    password_hash character varying(255) NOT NULL,
-    email character varying(255) NOT NULL
+    email character varying(255) NOT NULL,
+    password_hash character varying(255) NOT NULL
 );
 
 
@@ -284,9 +284,9 @@ ALTER TABLE ONLY public.visits ALTER COLUMN id SET DEFAULT nextval('public.visit
 -- -- Data for Name: system_users; Type: TABLE DATA; Schema: public; Owner: postgres
 -- --
 
--- COPY public.system_users (id, username, password_hash, email) FROM stdin;
--- 1	Romashka	qwerty123	jenya_shash21@gmail.com
--- 2	Berezka	123123	tsvet_proz11@gmail.com
+-- COPY public.system_users (id, username, email, password_hash) FROM stdin;
+-- 1	Romashka	jenya_shash21@gmail.com	 05e232f70dddfc2f3163220ab688f96ceb919239
+-- 2	Berezka	tsvet_proz11@gmail.com	6b8b570c56e29d5bd77edfacb7ae807072b46b76
 -- \.
 
 
