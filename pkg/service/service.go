@@ -12,7 +12,7 @@ type Authorization interface {
 }
 
 type Info interface {
-	// Create(userId int, info gym.Info) (int, error)
+	Create(info gym.Info, member gym.Member, instructor gym.Instructor) (int, error)
 	// GetAll(userId int) ([]gym.Info, error)
 	// GetById(userId, infoId int) (gym.Info, error)
 	// Delete(userId, infoId int) error
@@ -45,7 +45,7 @@ type Service struct {
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
-		// Info:      NewInfoService(repos.Info),
+		Info:          NewInfoService(repos.Info),
 		// Membership:      NewMembershipService(repos.Membership),
 		// Visit:      NewVisitService(repos.Visit, repos.Info),
 	}

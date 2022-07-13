@@ -10,7 +10,7 @@ type Membership struct {
 
 type Visit struct {
 	Id      int `json:"-" db:"id"`
-	UserId  int
-	Came_at string `json:"came_at" db:"came_at"`
+	InfoId  int
+	Came_at string `json:"came_at"` //db:"came_at"
 	Left_at string `json:"left_at"`
 }
