@@ -17,13 +17,13 @@ func (s *InfoService) Create(info gym.Info, member gym.Member, instructor gym.In
 	return s.repo.Create(info, member, instructor)
 }
 
-// func (s *InfoService) GetAll(infoId int) ([]gym.Info, error) {
-// 	return s.repo.GetAll(infoId)
-// }
+func (s *InfoService) GetAll() ([]gym.DataToPrintInfo, error) {
+	return s.repo.GetAll()
+}
 
-// func (s *InfoService) GetById(infoId, listId int) (gym.Info, error) {
-// 	return s.repo.GetById(infoId, listId)
-// }
+func (s *InfoService) GetById(infoId int) (interface{}, error) {
+	return s.repo.GetById(infoId)
+}
 
 // func (s *InfoService) Delete(infoId, listId int) error {
 // 	return s.repo.Delete(infoId, listId)

@@ -33,8 +33,6 @@ func (r *InfoPostgres) Create(info gym.Info, member gym.Member, instructor gym.I
 		return 0, err
 	}
 
-	// fmt.Printf("2: %v\n", instructor.Salary)
-
 	switch info.Relationship {
 	case "member":
 		createMemberQuery := fmt.Sprintf("INSERT INTO %s (info_id, membership_id, expires_at) VALUES ($1, $2, $3)", membersTable)
@@ -58,24 +56,37 @@ func (r *InfoPostgres) Create(info gym.Info, member gym.Member, instructor gym.I
 	return id, tx.Commit()
 }
 
-// func (r *InfoPostgres) GetAll(infoId int) ([]gym.Info, error) {
-// 	var lists []gym.Info
+func (r *InfoPostgres) GetAll() ([]gym.DataToPrintInfo, error) {
+	var infos []gym.DataToPrintInfo
 
-// 	query := fmt.Sprintf("SELECT tl.id, tl.title, tl.description FROM %s tl INNER JOIN %s ul on tl.id = ul.list_id WHERE ul.user_id = $1", todoListsTable, usersListsTable)
-// 	err := r.db.Select(&lists, query, infoId)
+	query := fmt.Sprintf("SELECT id, first_name, last_name, relationship, phone, date_of_registry FROM %s", infoTable)
+	err := r.db.Select(&infos, query)
 
-// 	return lists, err
-// }
+	return infos, err
+}
 
-// func (r *InfoPostgres) GetById(infoId, listId int) (gym.Info, error) {
-// 	var info gym.Info
+func (r *InfoPostgres) GetById(infoId int) (interface{}, error) {
+	var info gym.Info
 
-// 	query := fmt.Sprintf(`SELECT tl.id, tl.title, tl.description FROM %s tl
-// INNER JOIN %s ul on tl.id = ul.list_id WHERE ul.user_id = $1 AND ul.list_id = $2`, todoListsTable, usersListsTable)
-// 	err := r.db.Get(&info, query, infoId, listId)
+	row := fmt.Sprintf(`SELECT relationship FROM %s WHERE id=$1`, infoTable)
+	_ = r.db.Get(&info, row, infoId)
 
-// 	return info, err
-// }
+	switch info.Relationship {
+	case "member":
+		var infoMember gym.DataToPrintMember
+		query := fmt.Sprintf(`SELECT inf.id, inf.first_name, inf.last_name, inf.middle_name, inf.relationship, inf.phone, inf.date_of_birth, inf.date_of_registry, mem.membership_id, mem.expires_at FROM %s inf INNER JOIN %s mem on mem.info_id = inf.id WHERE inf.id = $1 AND  mem.info_id = $1`, infoTable, membersTable)
+		err := r.db.Get(&infoMember, query, infoId)
+		return infoMember, err
+	case "instructor":
+		var infoInstructor gym.DataToPrintInstructor
+		query := fmt.Sprintf(`SELECT inf.id, inf.first_name, inf.last_name, inf.middle_name, inf.relationship, inf.phone, inf.date_of_birth, inf.date_of_registry, inst.hire_date, inst.salary FROM %s inf INNER JOIN %s inst on inst.info_id = inf.id WHERE inf.id = $1 AND  inst.info_id = $1`, infoTable, instructorsTable)
+		err := r.db.Get(&infoInstructor, query, infoId)
+		return infoInstructor, err
+	default:
+		return info, errors.New("pq:info: relationship input error")
+	}
+
+}
 
 // func (r *InfoPostgres) Delete(infoId, listId int) error {
 // 	query := fmt.Sprintf("DELETE FROM %s tl USING %s ul WHERE tl.id = ul.list_id AND ul.user_id=$1 AND ul.list_id=$2", todoListsTable, usersListsTable)

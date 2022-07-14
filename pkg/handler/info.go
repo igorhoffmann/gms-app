@@ -3,6 +3,8 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strconv"
+
 	// "strconv"
 
 	"github.com/gin-gonic/gin"
@@ -37,46 +39,36 @@ func (h *Handler) createInfo(c *gin.Context) {
 	})
 }
 
-// type getAllListsResponse struct {
-// 	Data []gym.Info `json:"data"`
-// }
+type getAllInfosResponse struct {
+	Data []gym.DataToPrintInfo `json:"data"`
+}
 
 func (h *Handler) getAllInfos(c *gin.Context) {
-	// infoId, err := getUserId(c)
-	// if err != nil {
-	// 	return
-	// }
+	infos, err := h.services.Info.GetAll()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-	// lists, err := h.services.Info.GetAll(infoId)
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
-
-	// c.JSON(http.StatusOK, getAllListsResponse{
-	// 	Data: lists,
-	// })
+	c.JSON(http.StatusOK, getAllInfosResponse{
+		Data: infos,
+	})
 }
 
 func (h *Handler) getInfoById(c *gin.Context) {
-	// infoId, err := getUserId(c)
-	// if err != nil {
-	// 	return
-	// }
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
 
-	// id, err := strconv.Atoi(c.Param("id"))
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusBadRequest, "invalid id param")
-	// 	return
-	// }
+	info, err := h.services.Info.GetById(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-	// list, err := h.services.Info.GetById(infoId, id)
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
-
-	// c.JSON(http.StatusOK, list)
+	c.JSON(http.StatusOK, info)
 }
 
 func (h *Handler) updateInfo(c *gin.Context) {

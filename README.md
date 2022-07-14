@@ -15,3 +15,8 @@ make migrate
 ## <a href="https://github.com/igorgofman/DB-CNTU/blob/main/info-backup.sql">Тестовые данные</a>
 
 Можно просто скопировать и вставить содержимое файла в редакторе, открыв нужную базу данных.
+
+
+
+### P.s.
+Inspired by <a href="https://github.com/zhashkevych/todo-app">Maksim Zhashkevych</a>
