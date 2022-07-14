@@ -88,12 +88,32 @@ func (r *InfoPostgres) GetById(infoId int) (interface{}, error) {
 
 }
 
-// func (r *InfoPostgres) Delete(infoId, listId int) error {
-// 	query := fmt.Sprintf("DELETE FROM %s tl USING %s ul WHERE tl.id = ul.list_id AND ul.user_id=$1 AND ul.list_id=$2", todoListsTable, usersListsTable)
-// 	_, err := r.db.Exec(query, infoId, listId)
+func (r *InfoPostgres) Delete(infoId int) error {
+	var info gym.Info
 
-// 	return err
-// }
+	row := fmt.Sprintf(`SELECT relationship FROM %s WHERE id=$1`, infoTable)
+	_ = r.db.Get(&info, row, infoId)
+
+	switch info.Relationship {
+	case "member":
+		memrow := fmt.Sprintf("DELETE FROM %s WHERE info_id = $1", membersTable)
+		_, err := r.db.Exec(memrow, infoId)
+		if err != nil {
+			return err
+		}
+	case "instructor":
+		instrow := fmt.Sprintf("DELETE FROM %s WHERE info_id = $1", instructorsTable)
+		_, err := r.db.Exec(instrow, infoId)
+		if err != nil {
+			return err
+		}
+	}
+
+	query := fmt.Sprintf("DELETE FROM %s WHERE id = $1", infoTable)
+	_, err := r.db.Exec(query, infoId)
+
+	return err
+}
 
 // func (r *InfoPostgres) Update(infoId, listId int, input gym.UpdateListInput) error {
 // 	setValues := make([]string, 0)

@@ -25,9 +25,9 @@ func (s *InfoService) GetById(infoId int) (interface{}, error) {
 	return s.repo.GetById(infoId)
 }
 
-// func (s *InfoService) Delete(infoId, listId int) error {
-// 	return s.repo.Delete(infoId, listId)
-// }
+func (s *InfoService) Delete(infoId int) error {
+	return s.repo.Delete(infoId)
+}
 
 // func (s *InfoService) Update(infoId, listId int, input gym.UpdateListInput) error {
 // 	if err := input.Validate(); err != nil {

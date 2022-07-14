@@ -100,24 +100,19 @@ func (h *Handler) updateInfo(c *gin.Context) {
 }
 
 func (h *Handler) deleteInfo(c *gin.Context) {
-	// infoId, err := getUserId(c)
-	// if err != nil {
-	// 	return
-	// }
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
 
-	// id, err := strconv.Atoi(c.Param("id"))
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusBadRequest, "invalid id param")
-	// 	return
-	// }
+	err = h.services.Info.Delete(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-	// err = h.services.Info.Delete(infoId, id)
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
-
-	// c.JSON(http.StatusOK, statusResponse{
-	// 	Status: "ok",
-	// })
+	c.JSON(http.StatusOK, statusResponse{
+		Status: "ok",
+	})
 }

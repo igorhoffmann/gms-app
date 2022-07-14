@@ -15,7 +15,7 @@ type Info interface {
 	Create(info gym.Info, member gym.Member, instructor gym.Instructor) (int, error)
 	GetAll() ([]gym.DataToPrintInfo, error)
 	GetById(infoId int) (interface{}, error)
-	// Delete(userId, infoId int) error
+	Delete(infoId int) error
 	// Update(userId, infoId int, input gym.UpdateInfoInput) error
 }
 
