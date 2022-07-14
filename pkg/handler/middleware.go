@@ -11,6 +11,7 @@ import (
 const (
 	authorizationHeader = "Authorization"
 	userCtx             = "userId"
+	// infoCtx             = "infoId"
 )
 
 func (h *Handler) userIndentity(c *gin.Context) {
@@ -54,3 +55,19 @@ func getUserId(c *gin.Context) (int, error) {
 	}
 	return idInt, nil
 }
+
+// func getInfoId(c *gin.Context, infoId int) (int, error) {
+// 	id, ok := c.Get(infoCtx)
+// 	if !ok {
+// 		newErrorResponse(c, http.StatusInternalServerError, "info id not found")
+// 		return 0, errors.New("info id not found")
+// 	}
+
+// 	idInt, ok := id.(int)
+
+// 	if !ok {
+// 		newErrorResponse(c, http.StatusInternalServerError, "info id is of invalid type")
+// 		return 0, errors.New("info id not found")
+// 	}
+// 	return idInt, nil
+// }

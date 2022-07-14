@@ -3,12 +3,11 @@ package repository
 import (
 	"errors"
 	"fmt"
-
-	// "strings"
+	"strings"
 
 	gym "github.com/igorgofman/GMS-app"
 	"github.com/jmoiron/sqlx"
-	// "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 type InfoPostgres struct {
@@ -115,32 +114,121 @@ func (r *InfoPostgres) Delete(infoId int) error {
 	return err
 }
 
-// func (r *InfoPostgres) Update(infoId, listId int, input gym.UpdateListInput) error {
-// 	setValues := make([]string, 0)
-// 	args := make([]interface{}, 0)
-// 	argId := 1
+func (r *InfoPostgres) Update(infoId int, input gym.UpdateInfoInput) error {
+	var info gym.Info
 
-// 	if input.Title != nil {
-// 		setValues = append(setValues, fmt.Sprintf("title=$%d", argId))
-// 		args = append(args, *input.Title)
-// 		argId++
-// 	}
+	row := fmt.Sprintf(`SELECT relationship FROM %s WHERE id=$1`, infoTable)
+	_ = r.db.Get(&info, row, infoId)
 
-// 	if input.Description != nil {
-// 		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
-// 		args = append(args, *input.Description)
-// 		argId++
-// 	}
+	setValues := make([]string, 0)
+	args := make([]interface{}, 0)
+	argId := 1
 
-// 	setQuery := strings.Join(setValues, ", ")
+	if input.First_Name != nil {
+		setValues = append(setValues, fmt.Sprintf("first_name=$%d", argId))
+		args = append(args, *input.First_Name)
+		argId++
+	}
 
-// 	query := fmt.Sprintf("UPDATE %s tl SET %s FROM %s vl WHERE tl.id = ul.list_id AND ul.list_id=$%d AND ul.user_id=$%d", todoListsTable, setQuery, usersListsTable, argId, argId+1)
+	if input.Last_Name != nil {
+		setValues = append(setValues, fmt.Sprintf("last_name=$%d", argId))
+		args = append(args, *input.Last_Name)
+		argId++
+	}
 
-// 	args = append(args, listId, infoId)
+	if input.Middle_Name != nil {
+		setValues = append(setValues, fmt.Sprintf("middle_name=$%d", argId))
+		args = append(args, *input.Middle_Name)
+		argId++
+	}
 
-// 	logrus.Debug("updateQuery: %s", query)
-// 	logrus.Debug("args: %s", args)
+	if input.Relationship != nil {
+		setValues = append(setValues, fmt.Sprintf("relationship=$%d", argId))
+		args = append(args, *input.Relationship)
+		argId++
+	}
 
-// 	_, err := r.db.Exec(query, args...)
-// 	return err
-// }
+	if input.Phone != nil {
+		setValues = append(setValues, fmt.Sprintf("phone=$%d", argId))
+		args = append(args, *input.Phone)
+		argId++
+	}
+
+	if input.Date_of_birth != nil {
+		setValues = append(setValues, fmt.Sprintf("date_of_birth=$%d", argId))
+		args = append(args, *input.Date_of_birth)
+		argId++
+	}
+
+	switch info.Relationship {
+	case "member":
+		setValuesMember := make([]string, 0)
+		args := make([]interface{}, 0)
+		argId := 1
+
+		if input.MembershipId != nil {
+			setValuesMember = append(setValuesMember, fmt.Sprintf("membership_id=$%d", argId))
+			args = append(args, *input.MembershipId)
+			argId++
+		}
+
+		if input.Expires_at != nil {
+			setValuesMember = append(setValuesMember, fmt.Sprintf("expires_at=$%d", argId))
+			args = append(args, *input.Expires_at)
+			argId++
+		}
+
+		setQuery := strings.Join(setValuesMember, ", ")
+
+		query := fmt.Sprintf("UPDATE %s SET %s WHERE info_id=$%d ", membersTable, setQuery, argId)
+
+		args = append(args, infoId)
+
+		logrus.Debugf("updateQueryMember: %s", query)
+		logrus.Debugf("argsMember: %s", args)
+
+		_, err := r.db.Exec(query, args...)
+
+		if err != nil {
+			return err
+		}
+
+	case "instructor":
+		setValuesInstructor := make([]string, 0)
+		args := make([]interface{}, 0)
+		argId := 1
+
+		if input.Salary != nil {
+			setValuesInstructor = append(setValuesInstructor, fmt.Sprintf("salary=$%d", argId))
+			args = append(args, *input.Salary)
+			argId++
+		}
+
+		setQuery := strings.Join(setValuesInstructor, ", ")
+
+		query := fmt.Sprintf("UPDATE %s SET %s WHERE info_id=$%d ", instructorsTable, setQuery, argId)
+
+		args = append(args, infoId)
+
+		logrus.Debugf("updateQueryInstructor: %s", query)
+		logrus.Debugf("argsInstructor: %s", args)
+
+		_, err := r.db.Exec(query, args...)
+
+		if err != nil {
+			return err
+		}
+	}
+
+	setQuery := strings.Join(setValues, ", ")
+
+	query := fmt.Sprintf("UPDATE %s SET %s WHERE id=$%d ", infoTable, setQuery, argId)
+
+	args = append(args, infoId)
+
+	logrus.Debugf("updateQuery: %s", query)
+	logrus.Debugf("args: %s", args)
+
+	_, err := r.db.Exec(query, args...)
+	return err
+}

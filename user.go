@@ -1,5 +1,7 @@
 package gym
 
+import "errors"
+
 type Info struct {
 	Id               int    `json:"id" db:"id"`
 	First_Name       string `json:"first_name" db:"first_name" binding:"required"`
@@ -66,3 +68,35 @@ type DataToPrintInstructor struct {
 	Hire_date        string `json:"hire_date" db:"hire_date"`
 	Salary           string `json:"salary" db:"salary"`
 }
+
+type UpdateInfoInput struct {
+	First_Name    *string `json:"first_name"`
+	Last_Name     *string `json:"last_name"`
+	Middle_Name   *string `json:"middle_name"`
+	Relationship  *string `json:"relationship"`
+	Phone         *string `json:"phone"`
+	Date_of_birth *string `json:"date_of_birth"`
+	MembershipId  *string `json:"membership_id"`
+	Expires_at    *string `json:"expires_at"`
+	Salary        *string `json:"salary"`
+}
+
+func (i UpdateInfoInput) Validate() error {
+	if i.First_Name == nil && i.Last_Name == nil && i.Middle_Name == nil && i.Relationship == nil && i.Phone == nil && i.Date_of_birth == nil && i.MembershipId == nil && i.Expires_at == nil && i.Salary == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
+}
+
+// type UpdateItemInput struct {
+// 	Title       *string `json:"title"`
+// 	Description *string `json:"description"`
+// 	Done        *bool   `json:"done"`
+// }
+
+// func (i UpdateItemInput) Validate() error {
+// 	if i.Title == nil && i.Description == nil && i.Done == nil {
+// 		return errors.New("update structure has no values")
+// 	}
+// 	return nil
+// }

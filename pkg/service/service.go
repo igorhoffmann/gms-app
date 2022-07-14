@@ -16,7 +16,7 @@ type Info interface {
 	GetAll() ([]gym.DataToPrintInfo, error)
 	GetById(infoId int) (interface{}, error)
 	Delete(infoId int) error
-	// Update(userId, infoId int, input gym.UpdateInfoInput) error
+	Update(infoId int, input gym.UpdateInfoInput) error
 }
 
 type Membership interface {

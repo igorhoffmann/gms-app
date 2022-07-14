@@ -20,5 +20,5 @@ make migrate
 
 
 
-## P.s.
+### P.s.
 Inspired by <a href="https://github.com/zhashkevych/todo-app">Maksim Zhashkevych</a>.

@@ -29,9 +29,9 @@ func (s *InfoService) Delete(infoId int) error {
 	return s.repo.Delete(infoId)
 }
 
-// func (s *InfoService) Update(infoId, listId int, input gym.UpdateListInput) error {
-// 	if err := input.Validate(); err != nil {
-// 		return err
-// 	}
-// 	return s.repo.Update(infoId, listId, input)
-// }
+func (s *InfoService) Update(infoId int, input gym.UpdateInfoInput) error {
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(infoId, input)
+}

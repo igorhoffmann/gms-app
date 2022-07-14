@@ -5,8 +5,6 @@ import (
 	"net/http"
 	"strconv"
 
-	// "strconv"
-
 	"github.com/gin-gonic/gin"
 	gym "github.com/igorgofman/GMS-app"
 )
@@ -72,31 +70,26 @@ func (h *Handler) getInfoById(c *gin.Context) {
 }
 
 func (h *Handler) updateInfo(c *gin.Context) {
-	// infoId, err := getUserId(c)
-	// if err != nil {
-	// 	return
-	// }
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
 
-	// id, err := strconv.Atoi(c.Param("id"))
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusBadRequest, "invalid id param")
-	// 	return
-	// }
+	var input gym.UpdateInfoInput
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
 
-	// var input gym.UpdateListInput
-	// if err := c.BindJSON(&input); err != nil {
-	// 	newErrorResponse(c, http.StatusBadRequest, err.Error())
-	// 	return
-	// }
+	if err := h.services.Info.Update(id, input); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-	// if err := h.services.Info.Update(infoId, id, input); err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
-
-	// c.JSON(http.StatusOK, statusResponse{
-	// 	Status: "ok",
-	// })
+	c.JSON(http.StatusOK, statusResponse{
+		Status: "ok",
+	})
 }
 
 func (h *Handler) deleteInfo(c *gin.Context) {
