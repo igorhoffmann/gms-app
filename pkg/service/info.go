@@ -21,6 +21,14 @@ func (s *InfoService) GetAll() ([]gym.DataToPrintInfo, error) {
 	return s.repo.GetAll()
 }
 
+func (s *InfoService) GetAllInstructors() ([]gym.DataToPrintInstructor, error) {
+	return s.repo.GetAllInstructors()
+}
+
+func (s *InfoService) GetAllMembers() ([]gym.DataToPrintMember, error) {
+	return s.repo.GetAllMembers()
+}
+
 func (s *InfoService) GetById(infoId int) (interface{}, error) {
 	return s.repo.GetById(infoId)
 }

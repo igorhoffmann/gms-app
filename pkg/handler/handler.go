@@ -28,6 +28,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			info.POST("/", h.createInfo)
 			info.GET("/", h.getAllInfos)
+			info.GET("/instructors", h.getAllInstructors)
+			info.GET("/members", h.getAllMembers)
 			info.GET("/:id", h.getInfoById)
 			info.PUT("/:id", h.updateInfo)
 			info.DELETE("/:id", h.deleteInfo)

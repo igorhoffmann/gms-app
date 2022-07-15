@@ -64,6 +64,24 @@ func (r *InfoPostgres) GetAll() ([]gym.DataToPrintInfo, error) {
 	return infos, err
 }
 
+func (r *InfoPostgres) GetAllInstructors() ([]gym.DataToPrintInstructor, error) {
+	var infoInstructors []gym.DataToPrintInstructor
+
+	query := fmt.Sprintf(`SELECT inf.id, inf.first_name, inf.last_name, inf.middle_name, inf.relationship, inf.phone, inf.date_of_birth, inf.date_of_registry, inst.hire_date, inst.salary FROM %s inf INNER JOIN %s inst on inst.info_id = inf.id WHERE inf.relationship = 'instructor'`, infoTable, instructorsTable)
+	err := r.db.Select(&infoInstructors, query)
+
+	return infoInstructors, err
+}
+
+func (r *InfoPostgres) GetAllMembers() ([]gym.DataToPrintMember, error) {
+	var infoMembers []gym.DataToPrintMember
+
+	query := fmt.Sprintf(`SELECT inf.id, inf.first_name, inf.last_name, inf.middle_name, inf.relationship, inf.phone, inf.date_of_birth, inf.date_of_registry, mem.membership_id, mem.expires_at FROM %s inf INNER JOIN %s mem on mem.info_id = inf.id WHERE inf.relationship = 'member'`, infoTable, membersTable)
+	err := r.db.Select(&infoMembers, query)
+
+	return infoMembers, err
+}
+
 func (r *InfoPostgres) GetById(infoId int) (interface{}, error) {
 	var info gym.Info
 
@@ -75,12 +93,16 @@ func (r *InfoPostgres) GetById(infoId int) (interface{}, error) {
 		var infoMember gym.DataToPrintMember
 		query := fmt.Sprintf(`SELECT inf.id, inf.first_name, inf.last_name, inf.middle_name, inf.relationship, inf.phone, inf.date_of_birth, inf.date_of_registry, mem.membership_id, mem.expires_at FROM %s inf INNER JOIN %s mem on mem.info_id = inf.id WHERE inf.id = $1 AND  mem.info_id = $1`, infoTable, membersTable)
 		err := r.db.Get(&infoMember, query, infoId)
+
 		return infoMember, err
+
 	case "instructor":
 		var infoInstructor gym.DataToPrintInstructor
 		query := fmt.Sprintf(`SELECT inf.id, inf.first_name, inf.last_name, inf.middle_name, inf.relationship, inf.phone, inf.date_of_birth, inf.date_of_registry, inst.hire_date, inst.salary FROM %s inf INNER JOIN %s inst on inst.info_id = inf.id WHERE inf.id = $1 AND  inst.info_id = $1`, infoTable, instructorsTable)
 		err := r.db.Get(&infoInstructor, query, infoId)
+
 		return infoInstructor, err
+
 	default:
 		return info, errors.New("pq:info: relationship input error")
 	}

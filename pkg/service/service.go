@@ -14,17 +14,19 @@ type Authorization interface {
 type Info interface {
 	Create(info gym.Info, member gym.Member, instructor gym.Instructor) (int, error)
 	GetAll() ([]gym.DataToPrintInfo, error)
+	GetAllInstructors() ([]gym.DataToPrintInstructor, error)
+	GetAllMembers() ([]gym.DataToPrintMember, error)
 	GetById(infoId int) (interface{}, error)
 	Delete(infoId int) error
 	Update(infoId int, input gym.UpdateInfoInput) error
 }
 
 type Membership interface {
-	// Create(userId, membership gym.Membership) (int, error)
-	// GetAll(userId int) ([]gym.Membership, error)
-	// GetById(userId, membershipId int) (gym.Membership, error)
-	// Delete(userId, membershipId int) error
-	// Update(userId, membershipId int, input gym.UpdateMembershipInput) error
+	Create(membership gym.Membership) (int, error)
+	GetAll() ([]gym.Membership, error)
+	GetById(membershipId int) (gym.Membership, error)
+	Delete(membershipId int) error
+	Update(membershipId int, input gym.UpdateMembershipInput) error
 }
 
 type Visit interface {
@@ -46,7 +48,7 @@ func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
 		Info:          NewInfoService(repos.Info),
-		// Membership:      NewMembershipService(repos.Membership),
+		Membership:    NewMembershipService(repos.Membership),
 		// Visit:      NewVisitService(repos.Visit, repos.Info),
 	}
 }

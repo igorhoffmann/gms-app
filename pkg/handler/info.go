@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -21,11 +20,6 @@ func (h *Handler) createInfo(c *gin.Context) {
 		return
 	}
 
-	fmt.Printf("R: %v\n", input_info.Relationship)
-	fmt.Printf("S: %v\n", input_info.Instructor.Salary)
-	fmt.Printf("M: %v\n", input_info.Member.MembershipId)
-	// fmt.Printf("1: %v\n", input_instructor.Salary)
-
 	id, err := h.services.Info.Create(input_info, input_member, input_instructor)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
@@ -41,6 +35,14 @@ type getAllInfosResponse struct {
 	Data []gym.DataToPrintInfo `json:"data"`
 }
 
+type getAllInstructorsResponse struct {
+	Data []gym.DataToPrintInstructor `json:"data"`
+}
+
+type getAllMembersResponse struct {
+	Data []gym.DataToPrintMember `json:"data"`
+}
+
 func (h *Handler) getAllInfos(c *gin.Context) {
 	infos, err := h.services.Info.GetAll()
 	if err != nil {
@@ -50,6 +52,30 @@ func (h *Handler) getAllInfos(c *gin.Context) {
 
 	c.JSON(http.StatusOK, getAllInfosResponse{
 		Data: infos,
+	})
+}
+
+func (h *Handler) getAllInstructors(c *gin.Context) {
+	instructors, err := h.services.Info.GetAllInstructors()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getAllInstructorsResponse{
+		Data: instructors,
+	})
+}
+
+func (h *Handler) getAllMembers(c *gin.Context) {
+	members, err := h.services.Info.GetAllMembers()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getAllMembersResponse{
+		Data: members,
 	})
 }
 
