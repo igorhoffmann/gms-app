@@ -2,7 +2,10 @@ package main
 
 import (
 	// "log"
+	"context"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/igorgofman/GMS-app"
 	"github.com/igorgofman/GMS-app/pkg/handler"
@@ -42,9 +45,29 @@ func main() {
 	handlers := handler.NewHandler(services)
 
 	srv := new(gym.Server)
-	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
-		logrus.Fatalf("error occured while runnig http server: %s", err.Error())
+
+	go func() {
+		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+			logrus.Fatalf("error occured while runnig http server: %s", err.Error())
+		}
+	}()
+
+	logrus.Print("GmsApp Started")
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<-quit
+
+	logrus.Print("GmsApp Shutting Down")
+
+	if err := srv.Shutdown(context.Background()); err != nil {
+		logrus.Errorf("error occured on server shutting down: %s", err.Error())
 	}
+
+	if err := db.Close(); err != nil {
+		logrus.Errorf("error occured on db connection close: %s", err.Error())
+	}
+
 }
 
 func initConfig() error {

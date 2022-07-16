@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"errors"
+	// "errors"
 	"net/http"
 	"strings"
 
@@ -11,7 +11,6 @@ import (
 const (
 	authorizationHeader = "Authorization"
 	userCtx             = "userId"
-	// infoCtx             = "infoId"
 )
 
 func (h *Handler) userIndentity(c *gin.Context) {
@@ -40,34 +39,18 @@ func (h *Handler) userIndentity(c *gin.Context) {
 	c.Set(userCtx, userId)
 }
 
-func getUserId(c *gin.Context) (int, error) {
-	id, ok := c.Get(userCtx)
-	if !ok {
-		newErrorResponse(c, http.StatusInternalServerError, "user id not found")
-		return 0, errors.New("user id not found")
-	}
-
-	idInt, ok := id.(int)
-
-	if !ok {
-		newErrorResponse(c, http.StatusInternalServerError, "user id is of invalid type")
-		return 0, errors.New("user id not found")
-	}
-	return idInt, nil
-}
-
-// func getInfoId(c *gin.Context, infoId int) (int, error) {
-// 	id, ok := c.Get(infoCtx)
+// func getUserId(c *gin.Context) (int, error) {
+// 	id, ok := c.Get(userCtx)
 // 	if !ok {
-// 		newErrorResponse(c, http.StatusInternalServerError, "info id not found")
-// 		return 0, errors.New("info id not found")
+// 		newErrorResponse(c, http.StatusInternalServerError, "user id not found")
+// 		return 0, errors.New("user id not found")
 // 	}
 
 // 	idInt, ok := id.(int)
 
 // 	if !ok {
-// 		newErrorResponse(c, http.StatusInternalServerError, "info id is of invalid type")
-// 		return 0, errors.New("info id not found")
+// 		newErrorResponse(c, http.StatusInternalServerError, "user id is of invalid type")
+// 		return 0, errors.New("user id not found")
 // 	}
 // 	return idInt, nil
 // }

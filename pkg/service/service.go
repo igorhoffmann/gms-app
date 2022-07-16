@@ -30,11 +30,12 @@ type Membership interface {
 }
 
 type Visit interface {
-	// Create(userId, infoId int, visit gym.Visit) (int, error)
-	// GetAll(userId, infoId int) ([]gym.Visit, error)
-	// GetById(userId, visitId int) (gym.Visit, error)
-	// Delete(userId, visitId int) error
-	// Update(userId, visitId int, input gym.UpdateVisitInput) error
+	Create(visitorId int) (int, error)
+	GetAll() ([]gym.Visit, error)
+	GetById(visitId int) (gym.Visit, error)
+	GetAllById(visitorId int) ([]gym.Visit, error)
+	Delete(visitId int) error
+	Update(visitId int, input gym.UpdateVisitInput) error
 }
 
 type Service struct {
@@ -49,6 +50,6 @@ func NewService(repos *repository.Repository) *Service {
 		Authorization: NewAuthService(repos.Authorization),
 		Info:          NewInfoService(repos.Info),
 		Membership:    NewMembershipService(repos.Membership),
-		// Visit:      NewVisitService(repos.Visit, repos.Info),
+		Visit:         NewVisitService(repos.Visit),
 	}
 }

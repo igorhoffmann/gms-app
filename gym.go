@@ -11,10 +11,10 @@ type Membership struct {
 }
 
 type Visit struct {
-	Id      int    `json:"id" db:"id"`
-	InfoId  int    `json:"info_id" binding:"required"`
-	Came_at string `json:"came_at" db:"came_at"`
-	Left_at string `json:"left_at" db:"left_at"`
+	Id      int     `json:"id" db:"id"`
+	InfoId  string  `json:"visitor_id" db:"visitor_id"`
+	Came_at string  `json:"came_at" db:"came_at"`
+	Left_at *string `json:"left_at" db:"left_at"`
 }
 
 type UpdateMembershipInput struct {
@@ -31,15 +31,15 @@ func (i UpdateMembershipInput) Validate() error {
 	return nil
 }
 
-// type UpdateItemInput struct {
-// 	Title       *string `json:"title"`
-// 	Description *string `json:"description"`
-// 	Done        *bool   `json:"done"`
-// }
+type UpdateVisitInput struct {
+	InfoId  *string `json:"visitor_id"`
+	Came_at *string `json:"came_at"`
+	Left_at *string `json:"left_at"`
+}
 
-// func (i UpdateItemInput) Validate() error {
-// 	if i.Title == nil && i.Description == nil && i.Done == nil {
-// 		return errors.New("update structure has no values")
-// 	}
-// 	return nil
-// }
+func (i UpdateVisitInput) Validate() error {
+	if i.InfoId == nil && i.Came_at == nil && i.Left_at == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
+}

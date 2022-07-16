@@ -29,11 +29,12 @@ type Membership interface {
 }
 
 type Visit interface {
-	// Create(infoId int, visit gym.Visit) (int, error)
-	// GetAll(userId, infoId int) ([]gym.Visit, error)
-	// GetById(userId, visitId int) (gym.Visit, error)
-	// Delete(userId, visitId int) error
-	// Update(userId, visitId int, input gym.UpdateVisitInput) error
+	Create(visitorId int) (int, error)
+	GetAll() ([]gym.Visit, error)
+	GetById(visitId int) (gym.Visit, error)
+	GetAllById(visitorId int) ([]gym.Visit, error)
+	Delete(visitId int) error
+	Update(visitId int, input gym.UpdateVisitInput) error
 }
 
 type Repository struct {
@@ -48,6 +49,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Authorization: NewAuthPostgres(db),
 		Info:          NewInfoPostgres(db),
 		Membership:    NewMembershipPostgres(db),
-		// Visit:      NewVisitPostgres(db),
+		Visit:         NewVisitPostgres(db),
 	}
 }
