@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	gym "github.com/igorgofman/GMS-app"
+	gym "github.com/igorgofman/gms-app"
 	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
 )

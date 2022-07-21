@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/igorgofman/GMS-app"
-	"github.com/igorgofman/GMS-app/pkg/repository"
+	"github.com/igorgofman/gms-app"
+	"github.com/igorgofman/gms-app/pkg/repository"
 )
 
 const (

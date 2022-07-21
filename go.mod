@@ -1,4 +1,4 @@
-module github.com/igorgofman/GMS-app
+module github.com/igorgofman/gms-app
 
 go 1.18
 

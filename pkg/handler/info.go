@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	gym "github.com/igorgofman/GMS-app"
+	gym "github.com/igorgofman/gms-app"
 )
 
 func (h *Handler) createInfo(c *gin.Context) {

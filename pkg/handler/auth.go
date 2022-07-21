@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/igorgofman/GMS-app"
+	"github.com/igorgofman/gms-app"
 )
 
 func (h *Handler) signUp(c *gin.Context) {

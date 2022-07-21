@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/igorgofman/GMS-app"
-	"github.com/igorgofman/GMS-app/pkg/repository"
+	"github.com/igorgofman/gms-app"
+	"github.com/igorgofman/gms-app/pkg/repository"
 )
 
 type Authorization interface {

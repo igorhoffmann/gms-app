@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 
-	"github.com/igorgofman/GMS-app"
+	"github.com/igorgofman/gms-app"
 	"github.com/jmoiron/sqlx"
 )
 

@@ -1,4 +1,4 @@
-FROM golang:1.18.3-buster
+FROM golang:1.18.4-buster
 
 RUN go version
 ENV GOPATH=/
@@ -14,6 +14,6 @@ RUN chmod +x wait-for-postgres.sh
 
 # build go app
 RUN go mod download
-RUN go build -o GMS-app ./cmd/main.go
+RUN go build -o gms-app ./cmd/main.go
 
-CMD ["./GMS-app"]
+CMD ["./gms-app"]

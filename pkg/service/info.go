@@ -1,8 +1,8 @@
 package service
 
 import (
-	gym "github.com/igorgofman/GMS-app"
-	"github.com/igorgofman/GMS-app/pkg/repository"
+	gym "github.com/igorgofman/gms-app"
+	"github.com/igorgofman/gms-app/pkg/repository"
 )
 
 type InfoService struct {

@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  GMS-app:
+  gms-app:
     build: ./
-    command: ./wait-for-postgres.sh db ./GMS-app
+    command: ./wait-for-postgres.sh db ./gms-app
     ports:
       - 8000:8000
     depends_on:
@@ -12,7 +12,7 @@ services:
       - DB_PASSWORD=qwerty
 
   db:
-    restart: always
+    # restart: always
     image: postgres:latest
     volumes:
     - ./.database/postgres/data:/var/lib/postgresql/data
@@ -20,4 +20,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=qwerty
     ports:
-      - 5432:5432
+      - "5436:5432"
+
+

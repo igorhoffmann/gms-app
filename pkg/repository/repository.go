@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/igorgofman/GMS-app"
+	"github.com/igorgofman/gms-app"
 	"github.com/jmoiron/sqlx"
 )
 
