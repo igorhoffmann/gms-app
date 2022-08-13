@@ -1,5 +1,7 @@
 # REST API "Gym Management System" на Go
 
+Приложение реализует сервис отправки методов GET, POST, DELETE, PUT для взаимодействия с базой данных, которая описана в <a href="https://github.com/igorgofman/gms-app/blob/master/schema/000001_init.up.sql">данном файле</a>. Дополнительно реализовано авторизация и аутентификация, с помощью jwt.
+
 ## Для запуска приложения:
 
 ```
