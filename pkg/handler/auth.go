@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"net/mail"
 
 	"github.com/gin-gonic/gin"
 	"github.com/igorgofman/gms-app"
@@ -9,9 +10,16 @@ import (
 
 func (h *Handler) signUp(c *gin.Context) {
 	var input gym.SysUser
+	var ok bool
 
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "invalid input body")
+		return
+	}
+
+	input.Email, ok = validMailAddress(input.Email)
+	if !ok {
+		newErrorResponse(c, http.StatusBadRequest, "invalid email")
 		return
 	}
 
@@ -49,4 +57,12 @@ func (h *Handler) signIn(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"token": token,
 	})
+}
+
+func validMailAddress(address string) (string, bool) {
+	addr, err := mail.ParseAddress(address)
+	if err != nil {
+		return "", false
+	}
+	return addr.Address, true
 }
