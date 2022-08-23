@@ -1,6 +1,6 @@
-# REST API "Gym Management System" на Go
+# REST API "Gym Management System" on Go
 
-Приложение реализует сервис отправки методов GET, POST, DELETE, PUT для взаимодействия с базой данных, которая описана в <a href="https://github.com/igorgofman/gms-app/blob/master/schema/000001_init.up.sql">данном файле</a>. Дополнительно реализована авторизация и аутентификация, с помощью jwt.
+The application implements a service for sending methods GET, POST, DELETE, PUT to interact with the database, which is described in this <a href="https://github.com/igorgofman/gms-app/blob/master/schema/000001_init.up.sql">file</a>. Additionally implemented authorization and authentication using jwt.
 
 ## API:
 
@@ -105,26 +105,31 @@ Deletes info by ID:
 ## Requirements
 - go 1.18
 - docker & docker-compose
-- postman (для тестирования)
+- postman (for testing)
 
 
-## Для запуска приложения:
+## To launch an application:
 
 ```
 make build && make run
 ```
 
-Если приложение запускается впервые, необходимо применить миграции к базе данных:
+If the application is running for the first time, you need to apply migrations to the database:
 
 ```
 make migrate
 ```
 
-## <a href="https://github.com/igorgofman/DB-CNTU/blob/main/info-backup.sql">Тестовые данные</a>
+## <a href="https://github.com/igorgofman/DB-CNTU/blob/main/info-backup.sql">Test data</a>
 
-Можно просто скопировать и вставить содержимое файла в терминале, открыв нужную базу данных.
+You can simply copy and paste the contents of the file in the terminal, opening the desired database.
 
-Если используете Git Bash в Windows и у вас нет команды make в терминале, советую этот <a href="https://gist.github.com/evanwill/0207876c3243bbb6863e65ec5dc3f058#make">гайд</a>.
+If you're using Git Bash on Windows and don't have a make command in the terminal, I recommend this <a href="https://gist.github.com/evanwill/0207876c3243bbb6863e65ec5dc3f058#make">guide</a>.
+
+
+## Application testing
+
+The <a href="https://github.com/igorgofman/gms-app/postman">postman</a> folder contains a collection for testing the application. Postman <a href="https://www.postman.com/downloads/">download link</a>.
 
 
 
