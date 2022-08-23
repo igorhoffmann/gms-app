@@ -124,7 +124,7 @@ make migrate
 
 You can simply copy and paste the contents of the file in the terminal, opening the desired database.
 
-If you're using Git Bash on Windows and don't have a make command in the terminal, I recommend this <a href="https://gist.github.com/evanwill/0207876c3243bbb6863e65ec5dc3f058#make">guide</a>.
+If you're using Git Bash on Windows and don't have a ```make``` command in the terminal, I recommend this <a href="https://gist.github.com/evanwill/0207876c3243bbb6863e65ec5dc3f058#make">guide</a>.
 
 
 ## Application testing
