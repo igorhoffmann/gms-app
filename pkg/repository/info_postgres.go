@@ -112,9 +112,18 @@ func (r *InfoPostgres) GetById(infoId int) (interface{}, error) {
 func (r *InfoPostgres) Delete(infoId int) error {
 	var info gym.Info
 
+	//Checks if user is in info_main table
 	row := fmt.Sprintf(`SELECT relationship FROM %s WHERE id=$1`, infoTable)
 	_ = r.db.Get(&info, row, infoId)
 
+	//Deletes all user visits
+	visitrow := fmt.Sprintf("DELETE FROM %s WHERE visitor_id = $1", visitsTable)
+	_, err := r.db.Exec(visitrow, infoId)
+	if err != nil {
+		return err
+	}
+
+	//Deletes info in subtables
 	switch info.Relationship {
 	case "member":
 		memrow := fmt.Sprintf("DELETE FROM %s WHERE info_id = $1", membersTable)
@@ -130,8 +139,9 @@ func (r *InfoPostgres) Delete(infoId int) error {
 		}
 	}
 
+	//Deletes info in info_main
 	query := fmt.Sprintf("DELETE FROM %s WHERE id = $1", infoTable)
-	_, err := r.db.Exec(query, infoId)
+	_, err = r.db.Exec(query, infoId)
 
 	return err
 }

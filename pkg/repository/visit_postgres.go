@@ -17,10 +17,11 @@ func NewVisitPostgres(db *sqlx.DB) *VisitPostgres {
 	return &VisitPostgres{db: db}
 }
 
+// Creates visit with default came_at = now()
 func (r *VisitPostgres) Create(visitorId int) (int, error) {
 	var id int
-	createMembershipQuery := fmt.Sprintf("INSERT INTO %s (visitor_id) VALUES ($1) RETURNING id", visitsTable)
-	row := r.db.QueryRow(createMembershipQuery, visitorId)
+	createVisitQuery := fmt.Sprintf("INSERT INTO %s (visitor_id) VALUES ($1) RETURNING id", visitsTable)
+	row := r.db.QueryRow(createVisitQuery, visitorId)
 	if err := row.Scan(&id); err != nil {
 		return 0, err
 	}
@@ -28,6 +29,7 @@ func (r *VisitPostgres) Create(visitorId int) (int, error) {
 	return id, nil
 }
 
+// Returns all visits
 func (r *VisitPostgres) GetAll() ([]gym.Visit, error) {
 	var visits []gym.Visit
 
@@ -37,6 +39,7 @@ func (r *VisitPostgres) GetAll() ([]gym.Visit, error) {
 	return visits, err
 }
 
+// Returns visit by id
 func (r *VisitPostgres) GetById(visitId int) (gym.Visit, error) {
 	var visit gym.Visit
 
@@ -46,6 +49,7 @@ func (r *VisitPostgres) GetById(visitId int) (gym.Visit, error) {
 	return visit, err
 }
 
+// Returns all user visits
 func (r *VisitPostgres) GetAllById(visitorId int) ([]gym.Visit, error) {
 	var visits []gym.Visit
 
@@ -55,6 +59,7 @@ func (r *VisitPostgres) GetAllById(visitorId int) ([]gym.Visit, error) {
 	return visits, err
 }
 
+// Deletes visit by id
 func (r *VisitPostgres) Delete(visitId int) error {
 
 	query := fmt.Sprintf("DELETE FROM %s WHERE id=$1", visitsTable)
@@ -63,6 +68,7 @@ func (r *VisitPostgres) Delete(visitId int) error {
 	return err
 }
 
+// Updates visit by id
 func (r *VisitPostgres) Update(visitId int, input gym.UpdateVisitInput) error {
 	setValues := make([]string, 0)
 	args := make([]interface{}, 0)
@@ -80,6 +86,7 @@ func (r *VisitPostgres) Update(visitId int, input gym.UpdateVisitInput) error {
 		argId++
 	}
 
+	// to change left_at to current time, in request must be: {"left_at": "now()"}
 	if input.Left_at != nil {
 		setValues = append(setValues, fmt.Sprintf("left_at=$%d", argId))
 		args = append(args, *input.Left_at)

@@ -10,6 +10,129 @@
 			"name": "Info",
 			"item": [
 				{
+					"name": "[Info] GetAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/info/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"info",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Info] GetAll Instructors",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/info/instructors",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"info",
+								"instructors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Info] GetAll Members",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/info/members",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"info",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "[Info] Create",
 					"event": [
 						{
@@ -17,7 +140,7 @@
 							"script": {
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);\r",
-									"postman.setEnviromentVariable(\"infoId\", jsonData.id);"
+									"pm.environment.set(\"infoId\", jsonData.id);"
 								],
 								"type": "text/javascript"
 							}
@@ -29,7 +152,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{userId}}",
+									"value": "{{userToken}}",
 									"type": "string"
 								}
 							]
@@ -60,7 +183,18 @@
 					"response": []
 				},
 				{
-					"name": "[Info] GetAll",
+					"name": "[Info] GetById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -70,7 +204,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{userId}}",
+									"value": "{{userToken}}",
 									"type": "string"
 								}
 							]
@@ -87,32 +221,54 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/info/",
+							"raw": "{{host}}/api/info/{{infoId}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"info",
-								""
+								"{{infoId}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "[Info] GetById",
+					"name": "[Info] Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "[Info] Delete",
-					"request": {
-						"method": "DELETE",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"last_name\":\"Evtushenko\",\r\n    \"salary\":\"400\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{host}}/api/info/{{infoId}}",
 							"host": [
@@ -126,6 +282,169 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "[Visits] Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"visitId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/info/{{infoId}}/visits/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"info",
+								"{{infoId}}",
+								"visits",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Visits] GetAllById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/info/{{infoId}}/visits/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"info",
+								"{{infoId}}",
+								"visits",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Info] Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/info/{{infoId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"info",
+								"{{infoId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{userToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -143,7 +462,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{userId}}",
+									"value": "{{userToken}}",
 									"type": "string"
 								}
 							]
@@ -152,7 +471,62 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/memberships/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"memberships",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Memberships] Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"membershipId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Advanced 12 month\",\r\n    \"price\": \"10000\",\r\n    \"duration\": \"12\",\r\n    \"instructor_id\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{host}}/api/memberships/",
@@ -179,7 +553,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{userId}}",
+									"value": "{{userToken}}",
 									"type": "string"
 								}
 							]
@@ -210,35 +584,23 @@
 					"response": []
 				},
 				{
-					"name": "[Memberships] Create",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"postman.setEnviromentVariable(\"membershipId\", jsonData.id);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
+					"name": "[Memberships] Update",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{userId}}",
+									"value": "{{userToken}}",
 									"type": "string"
 								}
 							]
 						},
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Advanced 12 month\",\r\n    \"price\": \"10000\",\r\n    \"duration\": \"12\",\r\n    \"instructor_id\": \"999\"\r\n}",
+							"raw": "{\r\n    \"price\": \"15000\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -246,14 +608,52 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/memberships/",
+							"raw": "{{host}}/api/memberships/{{membershipId}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"memberships",
-								""
+								"{{membershipId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Memberships] Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/memberships/{{membershipId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"memberships",
+								"{{membershipId}}"
 							]
 						}
 					},
@@ -263,7 +663,166 @@
 		},
 		{
 			"name": "Visits",
-			"item": []
+			"item": [
+				{
+					"name": "[Visits] GetAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/visits/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"visits",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Visits] GetById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/visits/{{visitId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"visits",
+								"{{visitId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Visits] Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"left_at\": \"now()\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/visits/{{visitId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"visits",
+								"{{visitId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Visits] Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/visits/{{visitId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"visits",
+								"{{visitId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Accounts",
@@ -275,7 +834,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"igorgofman\",\r\n    \"password\": \"qwerty\",\r\n    \"email\": \"test111@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"username\": \"slon\",\r\n    \"password\": \"qwerty\",\r\n    \"email\": \"test222@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -303,7 +862,7 @@
 							"script": {
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);\r",
-									"postman.setEnviromentVariable(\"userId\", jsonData.id);"
+									"pm.environment.set(\"userToken\", jsonData.token);"
 								],
 								"type": "text/javascript"
 							}
@@ -314,7 +873,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"igorgofman\",\r\n    \"password\": \"qwerty\"\r\n}",
+							"raw": "{\r\n    \"username\": \"slon\",\r\n    \"password\": \"qwerty\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -334,7 +893,60 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{userToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
